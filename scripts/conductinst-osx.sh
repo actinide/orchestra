@@ -25,6 +25,14 @@ if test ! $(which_ansible); then
   brew install ansible
 fi
 
+# Install and/or update Python
+brew install python
+
+# Install AWS command line tools
+if test ! $(which_aws); then
+  echo $BLUE'==>'$RESET "Installing AWS command line tools..."
+fi
+
 # Install EC2 command line tools
 if [ ! -d /usr/local/ec2 ]; then
   echo $BLUE'==>'$RESET "Installing EC2 CLI tools..."
