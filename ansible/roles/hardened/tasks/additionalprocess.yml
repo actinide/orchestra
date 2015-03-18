@@ -1,0 +1,17 @@
+### roles/additionalprocess.yml - Additional process hardening
+### Authored 2015 by Heather Huggins
+###
+### CIS Benchmark 4.1: Restrict core dumps
+
+---
+-name: Disable core dumps
+ lineinfile:
+   dest=/etc/security/limits.conf
+   state=present
+   line='* hard core 0'
+   regexp='\* *hard *core *0'
+ lineinfile:
+   dest=/etc/sysctl.conf
+   state=present
+   line='fs.suid_dumpable = 0'
+   regexp='*fs.suid_dumpable *0'

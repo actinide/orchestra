@@ -1,0 +1,18 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Heather Huggins
+  description: System hardening for Debian based systems
+  company: -
+  license: BSD
+  min_ansible_version: 1.4
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - system

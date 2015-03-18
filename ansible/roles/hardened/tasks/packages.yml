@@ -1,0 +1,62 @@
+### roles/packages.yml - Manages the presence or absence of packages, and their
+###                      basic configuration.
+### Authored 2015 by Heather Huggins
+###
+### CIS Benchmark: 5.1.1 Ensure NIS is not installed
+### CIS Benchmark: 5.1.3 Ensure rsh client is not installed
+### CIS Benchmark: 5.1.5 Ensure talk client is not installed
+### CIS Benchmark: 6.1 Ensure the X Window system is not installed
+### CIS Benchmark: 6.6 Ensure LDAP is not enabled
+
+---
+### present: ssh
+- name: Make sure ssh is installed
+  apt: pkg=openssh-server state=latest update_cache=true
+  notify:
+    - restart ssh
+
+### present: fail2ban
+- name: Make sure fail2ban is installed
+  apt: pkg=fail2ban state=latest update_cache=true
+  notify:
+    - restart fail2ban
+
+### present: auditd
+- name: Make sure auditd is installed
+  apt: pkg=auditd state=latest update_cache=true
+  notify:
+    - restart auditd
+
+### config: ssh
+- name: Configure ssh
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
+  notify:
+    - restart ssh
+
+### Make sure everything restarts when/if there's a reboot
+name: Make sure everything restarts when/if there's a reboot
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - ssh
+    - fail2ban
+
+### absent: nis
+- name: Make sure nis is not installed
+  apt: pkg=nis state=absent
+
+### absent: rsh-client
+- name: Make sure rsh-client is not installed
+  apt: pkg=rsh-client state=absent
+  apt: pkg=rsh-redone-client state=absent
+
+### absent: talk
+- name: Make sure the talk client is not installed
+  apt: pkg=talk state=absent
+
+### absent: xserver-xorg-core
+- name: Make sure the X Windows system is not installed
+  apt: pkg=xserver-xorg-core state=absent
+
+### absent: slapd
+- name: Make sure LDAP isn't installed
+  apt: pkg=slapd state=absent

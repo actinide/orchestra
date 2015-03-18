@@ -1,0 +1,16 @@
+### roles/patch.yml - Applies system-wide patches and security updates
+### Authored 2015 by Heather Huggins
+###
+### CIS Benchmark 1.1: Install updates, patches, and security software
+
+---
+### Pre-patching tasks to update the apt cache if needed
+- name: Check the last time apt was updated
+  stat: path=/var/cache/apt
+  register: apt_cache_updated
+- name: Update apt if not updated in the last hour
+  apt: update_cache=yes cache_valid_time=3600
+
+### Now patch all the things
+- name: Patching the system
+  apt: upgrade=safe

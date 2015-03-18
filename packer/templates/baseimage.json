@@ -1,8 +1,46 @@
 {
 
   "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": ""
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
   },
-  
+
+
+  "builders": [
+
+    { "type": "amazon-ebs",
+      "access_key": "{{user 'aws_access_key'}}",
+      "secret_key": "{{user 'aws_secret_key'}}",
+      "region": "us-east-1",
+      "source_ami": "ami-988ad1f0",
+      "instance_type": "m1.small",
+      "ssh_username": "ubuntu",
+      "ami_name": "packer-base {{timestamp}}"
+      }
+
+  ],
+
+
+
+  "provisioners": [
+
+    { "type": "shell",
+      "./packer/scripts/installansible.sh"
+
+    }
+
+
+    { "type": "ansible-local",
+      "playbook_file": "./ansible/playbooks/base.yml",
+      "inventory_file": "./ansible/hosts-build",
+      "role_paths": [
+        "./ansible/roles/hardened"
+      ]
+    }
+
+
+  ]
+
+
+
 }
