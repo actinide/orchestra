@@ -1,0 +1,8 @@
+---
+- name: base image
+  hosts: build
+  sudo: true
+
+  roles:
+    - { role: hardened }
+    
