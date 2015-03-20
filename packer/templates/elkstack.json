@@ -3,6 +3,8 @@
     "aws_access_key": "",
     "aws_secret_key": ""
   },
+
+  
   "builders": [
     {
       "type": "amazon-ebs",
@@ -12,21 +14,31 @@
       "source_ami": "ami-988ad1f0",
       "instance_type": "m1.small",
       "ssh_username": "ubuntu",
-      "ami_name": "packer-base {{timestamp}}"
-    }
+      "ami_name": "packer-elkstack {{timestamp}}"
+      }
+
   ],
+
+
   "provisioners": [
-    {
-      "type": "shell",
-      "script": "packer/scripts/installansible.sh"
-    },
-    {
-      "type": "ansible-local",
-      "playbook_file": "ansible/playbooks/base.yml",
-      "inventory_file": "ansible/hosts-build",
+
+    { "type": "shell",
+      "./packer/scripts/installansible.sh"
+
+    }
+
+
+    { "type": "ansible-local",
+      "playbook_file": "./ansible/playbooks/elk.yml",
+      "inventory_file": "./ansible/hosts-build",
       "role_paths": [
-        "ansible/roles/hardened"
+        "./ansible/roles/hardened"
       ]
     }
+
+
   ]
+
+
+
 }

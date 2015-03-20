@@ -1,5 +1,5 @@
 ---
-- name: base image
+- name: elk stack
   hosts: build
   sudo: true
 

@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: Heather Huggins
-  description: System hardening for Debian based systems
+  description: Installs and configures Docker on Debian based systems
   company: None
   license: BSD
   min_ansible_version: 1.4
